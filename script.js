@@ -60,7 +60,6 @@ let section = document.querySelector("section.text-gray-700.body-font");
 let totalPriceString =
   section.nextElementSibling.children[0].children[0].children[1].children[1];
 let totalPriceNum = parseInt(totalPriceString.innerHTML.substring(1, 8));
-console.log(totalPriceNum);
 let colorBoxes = Array.from(document.querySelectorAll(".mb-6"));
 
 // This counter resets in order to allow counting for other boxes in same cart
@@ -227,7 +226,6 @@ function addBlock(color, colorBox) {
         object.imageColor
       );
       totalPriceNum = totalPriceNum + truePrice;
-      console.log(totalPriceNum);
       totalPriceString.textContent = `$${totalPriceNum}.00`;
       colorBoxes.push(cBox);
       colorCart.append(cBox);
@@ -269,7 +267,7 @@ function subtractSingleAndTotal(color, colorBox) {
         );
 
         let addedPrice = truePrice * newCount;
-        totalPriceNum = totalPriceNum - addedPrice;
+        totalPriceNum = addedPrice - totalPriceNum;
         totalPriceString.textContent = `$${totalPriceNum}.00`;
       } else totalPriceNum = totalPriceNum - truePrice;
       totalPriceString.textContent = `$${totalPriceNum}.00`;
