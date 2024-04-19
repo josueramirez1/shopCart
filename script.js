@@ -16,8 +16,6 @@ const colorName = document.querySelectorAll(
 );
 let colorCart = document.querySelector("div.overflow-y-auto.px-4.pt-4");
 
-// let colorBoxes = Array.from(document.querySelectorAll(".mb-6"));
-
 // FETCH Json data
 // async function getItems(num) {
 //   try {
@@ -105,7 +103,6 @@ document.addEventListener("click", (e) => {
             color.closest(".mt-4").children[0].children[1].innerText ===
             colorBox.children[1].children[0].children[0].innerHTML
           ) {
-            console.log(true);
             // and if item does not contain a counter, add a counter
             if (colorBox.children[1].children[0].children.length === 1) {
               let span = document.createElement("span");
@@ -153,7 +150,6 @@ document.addEventListener("click", (e) => {
     if (e.target.closest(".mb-6") === colorBox.closest(".mb-6")) {
       let colorToEnter =
         e.target.parentElement.nextElementSibling.children[0].children[0];
-      // This if statement removes items from cart and array if it is not in the store html page.
       // if color box and color share the same name...
       if (
         colorToEnter.textContent ===
@@ -176,36 +172,8 @@ document.addEventListener("click", (e) => {
         }
         // Remove color box from shopping cart
         colorBox.remove();
+        toLocalStorage(totalPriceNum);
         return;
-      }
-      // This section removes items from cart and array if in store html page
-      for (let color of colorName) {
-        // if color box and color share the same name...
-
-        if (
-          color.closest(".mt-4").children[0].children[1].innerText ===
-          colorBox.children[1].children[0].children[0].innerText
-        ) {
-          // Remove one counter and subtract from total price
-          let subRedCounter = parseInt(redCounter.innerText) - 1;
-          redCounter.innerText = subRedCounter;
-          console.log(color);
-          subtractSingleAndTotal(color, colorBox);
-          // If the red counter turns to zero
-          if (subRedCounter === 0) {
-            // Remove both shopping cart and icon from sight
-            cartBtn.classList.add("invisible");
-            cartBox.classList.add("invisible");
-          }
-          // Remove item from array
-          const item = colorBoxes.indexOf(colorBox);
-          if (item > -1) {
-            colorBoxes.splice(item, 1);
-          }
-          // Remove color box from shopping cart
-          colorBox.remove();
-          return;
-        }
       }
     }
   }
@@ -229,6 +197,7 @@ function addBlock(color, colorBox) {
       totalPriceString.textContent = `$${totalPriceNum}.00`;
       colorBoxes.push(cBox);
       colorCart.append(cBox);
+
       // Update local storage
       toLocalStorage(totalPriceNum);
     }
@@ -240,7 +209,6 @@ function addSingleAndTotal(color, colorBox) {
     if (color.innerText === object.name) {
       let convertToString = object.priceCents.toString();
       let truePrice = parseInt(convertToString.substring(0, 2));
-      console.log(truePrice);
       let singlePriceItem = parseInt(
         colorBox.children[1].children[1].innerHTML.substring(1, 8)
       );
@@ -265,14 +233,12 @@ function subtractSingleAndTotal(color, colorBox) {
             8
           )
         );
-
         let addedPrice = truePrice * newCount;
-        totalPriceNum = addedPrice - totalPriceNum;
+        totalPriceNum = totalPriceNum - addedPrice;
         totalPriceString.textContent = `$${totalPriceNum}.00`;
       } else totalPriceNum = totalPriceNum - truePrice;
       totalPriceString.textContent = `$${totalPriceNum}.00`;
     }
-    toLocalStorage(totalPriceNum);
   }
 }
 
