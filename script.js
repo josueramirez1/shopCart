@@ -1,6 +1,5 @@
 import items from "./items.json";
 // Get selectors
-
 const cartBtn = document.querySelector(
   "button.fixed.top-0.right-0.mr-4.mt-4.w-12.bg-blue-500.p-2.rounded-full.text-white"
 );
@@ -61,22 +60,20 @@ let section = document.querySelector("section.text-gray-700.body-font");
 let totalPriceString =
   section.nextElementSibling.children[0].children[0].children[1].children[1];
 let totalPriceNum = parseInt(totalPriceString.innerHTML.substring(1, 8));
+console.log(totalPriceNum);
 let colorBoxes = Array.from(document.querySelectorAll(".mb-6"));
 
 // This counter resets in order to allow counting for other boxes in same cart
 let count = 2;
 
 // EVENT LISTENERS
-// This even listener is responsible for button icon
+
+// This event listener is for adding things to cart
 document.addEventListener("click", (e) => {
   // If user clicks on svg button, the shopping cart will appear
   if (e.target === cartBtn || e.target === svgCartBtn) {
     shoppingCart.classList.toggle("invisible");
   }
-});
-
-// This event listener is for adding things to cart
-document.addEventListener("click", (e) => {
   // If user clicks "ADD TO CART" then
   if (
     e.target.matches("button.text-white.py-2.px-4.text-xl.bg-blue-500.rounded")
@@ -88,7 +85,6 @@ document.addEventListener("click", (e) => {
         if (cartBtn.matches(".invisible") && cartBox.matches(".invisible")) {
           cartBtn.classList.remove("invisible");
         }
-
         let newColorBoxes = colorBoxes.filter((colorBox) => {
           // Return items that match the color that is to be added
           return (
@@ -101,6 +97,7 @@ document.addEventListener("click", (e) => {
           let numRedCounter = parseInt(redCounter.innerText) + 1;
           redCounter.innerText = numRedCounter;
           addBlock(color);
+          return;
         }
         // but...
         colorBoxes.forEach((colorBox) => {
@@ -109,6 +106,7 @@ document.addEventListener("click", (e) => {
             color.closest(".mt-4").children[0].children[1].innerText ===
             colorBox.children[1].children[0].children[0].innerHTML
           ) {
+            console.log(true);
             // and if item does not contain a counter, add a counter
             if (colorBox.children[1].children[0].children.length === 1) {
               let span = document.createElement("span");
@@ -123,7 +121,6 @@ document.addEventListener("click", (e) => {
               colorBox.children[1].children[0].append(span);
               addSingleAndTotal(color, colorBox);
               count = 2;
-
               return;
             }
             // or if item already has a counter, continue adding up
@@ -140,7 +137,6 @@ document.addEventListener("click", (e) => {
                 );
                 addSingleAndTotal(color, colorBox);
                 colorBox.children[1].children[0].children[0].nextElementSibling.innerHTML = `x${++newCount}`;
-                // toLocalStorage(totalPriceNum);
                 return;
               }
             }
@@ -246,6 +242,7 @@ function addSingleAndTotal(color, colorBox) {
     if (color.innerText === object.name) {
       let convertToString = object.priceCents.toString();
       let truePrice = parseInt(convertToString.substring(0, 2));
+      console.log(truePrice);
       let singlePriceItem = parseInt(
         colorBox.children[1].children[1].innerHTML.substring(1, 8)
       );
