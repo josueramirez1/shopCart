@@ -212,10 +212,12 @@ function addSingleAndTotal(color, colorBox) {
       let singlePriceItem = parseInt(
         colorBox.children[1].children[1].innerHTML.substring(1, 8)
       );
-      let totalSinglePriceItem = singlePriceItem + truePrice;
+      console.log(singlePriceItem);
+      let totalSinglePriceItem = truePrice + singlePriceItem;
       colorBox.children[1].children[1].textContent = `$${totalSinglePriceItem}.00`;
       totalPriceNum = totalPriceNum + truePrice;
       totalPriceString.textContent = `$${totalPriceNum}.00`;
+
       toLocalStorage(totalPriceNum);
     }
   }
@@ -239,7 +241,6 @@ function subtractSingleAndTotal(color, colorBox) {
       } else totalPriceNum = totalPriceNum - truePrice;
       totalPriceString.textContent = `$${totalPriceNum}.00`;
     }
-    // toLocalStorage(totalPriceNum);
   }
 }
 
@@ -257,10 +258,11 @@ function toLocalStorage(total) {
   let string = JSON.stringify(newBoxes);
   localStorage.setItem("colorBoxes", string);
   // Log total price
-  let arrTotal = [];
-  arrTotal.push(total);
-  arrTotal.forEach((item) => {
-    return JSON.stringify(item);
-  });
-  localStorage.setItem("totalPrice", arrTotal);
+  localStorage.setItem("totalPrice", total);
+
+  // let arrTotal = [];
+  // arrTotal.push(total);
+  // arrTotal.forEach((item) => {
+  //   return JSON.stringify(item);
+  // });
 }
