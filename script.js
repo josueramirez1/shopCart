@@ -212,7 +212,6 @@ function addSingleAndTotal(color, colorBox) {
       let singlePriceItem = parseInt(
         colorBox.children[1].children[1].innerHTML.substring(1, 8)
       );
-      console.log(singlePriceItem);
       let totalSinglePriceItem = truePrice + singlePriceItem;
       colorBox.children[1].children[1].textContent = `$${totalSinglePriceItem}.00`;
       totalPriceNum = totalPriceNum + truePrice;
