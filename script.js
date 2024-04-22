@@ -226,7 +226,7 @@ function subtractSingleAndTotal(color, colorBox) {
     if (color.innerText === object.name) {
       let convertToString = object.priceCents.toString();
       let truePrice = parseInt(convertToString.substring(0, 2));
-      if (colorBox.children[1].children[0].children.length > 1) {
+      if (colorBox.children[1].children[0].children[1] != undefined) {
         let newCount = parseInt(
           colorBox.children[1].children[0].children[0].nextElementSibling.innerText.substring(
             1,
