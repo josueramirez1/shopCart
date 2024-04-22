@@ -104,7 +104,8 @@ document.addEventListener("click", (e) => {
             colorBox.children[1].children[0].children[0].innerHTML
           ) {
             // and if item does not contain a counter, add a counter
-            if (colorBox.children[1].children[0].children.length === 1) {
+
+            if (!colorBox.children[1].children[0].children[1]) {
               let span = document.createElement("span");
               span.innerText = `x${count}`;
               span.classList.add(
@@ -131,8 +132,8 @@ document.addEventListener("click", (e) => {
                     10
                   )
                 );
-                addSingleAndTotal(color, colorBox);
                 colorBox.children[1].children[0].children[0].nextElementSibling.innerHTML = `x${++newCount}`;
+                addSingleAndTotal(color, colorBox);
                 return;
               }
             }
