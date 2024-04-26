@@ -6,9 +6,7 @@ const cartPath = document.querySelector("[data-path-btn]");
 const cartBox = document.querySelector("[data-cart-box]");
 const svgCartBtn = document.querySelector("[data-svg-btn]");
 let redCounter = document.querySelector("div.rounded-full");
-const colorName = document.querySelectorAll(
-  "h2.text-gray-900.text-lg.font-medium"
-);
+const colorName = [...document.querySelectorAll("[data-color-name]")];
 let colorCart = document.querySelector("[data-color-cart]");
 
 // Retrieve local storage items
