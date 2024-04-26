@@ -1,33 +1,15 @@
 import items from "./items.json";
+
 // Get selectors
-const cartBtn = document.querySelector(
-  "button.fixed.top-0.right-0.mr-4.mt-4.w-12.bg-blue-500.p-2.rounded-full.text-white"
-);
-const cartBox = document.querySelector(
-  "div.bg-white.text-gray-700.body-font.shadow-lg.border.rounded-lg.flex.flex-col"
-);
-const svgCartBtn = document.querySelector("svg");
-const shoppingCart = document.querySelector(
-  "div.bg-white.text-gray-700.body-font.shadow-lg.border.rounded-lg.flex.flex-col"
-);
+const cartBtn = document.querySelector("[data-btn]");
+const cartPath = document.querySelector("[data-path-btn]");
+const cartBox = document.querySelector("[data-cart-box]");
+const svgCartBtn = document.querySelector("[data-svg-btn]");
 let redCounter = document.querySelector("div.rounded-full");
 const colorName = document.querySelectorAll(
   "h2.text-gray-900.text-lg.font-medium"
 );
-let colorCart = document.querySelector("div.overflow-y-auto.px-4.pt-4");
-
-// FETCH Json data
-// async function getItems(num) {
-//   try {
-//     const response = await fetch("items.json");
-//     if (response.ok) {
-//       const user = await response.json();
-//       return user;
-//     } else console.warn("Error");
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
+let colorCart = document.querySelector("[data-color-cart]");
 
 // Retrieve local storage items
 let savedColors = JSON.parse(localStorage.getItem("colorBoxes"));
@@ -36,14 +18,13 @@ let savedPrice = JSON.parse(localStorage.getItem("totalPrice"));
 // If local storage contains values...
 if (savedColors !== null && savedPrice !== 0) {
   // Show shopping cart button
-  cartBtn.classList.remove("invisible");
+  cartBtn.classList.remove("hidden");
+
   // Select cart and total html
-  let cart = document.querySelector(
-    ".fixed.top-0.right-0.mr-4.mt-4.w-12.bg-blue-500.p-2.rounded-full.text-white"
-  ).previousElementSibling.children[0].children[0];
-  let price = document.querySelector(
-    ".fixed.top-0.right-0.mr-4.mt-4.w-12.bg-blue-500.p-2.rounded-full.text-white"
-  ).previousElementSibling.children[0].children[1].children[1];
+  let cart = cartBtn.previousElementSibling.children[0].children[0];
+  let price =
+    cartBtn.previousElementSibling.children[0].children[1].children[1];
+
   // Attached saved colors to shopping cart
   savedColors.forEach((savedBox) => {
     cart.innerHTML += savedBox;
@@ -68,8 +49,12 @@ let count = 2;
 // This event listener is for adding things to cart
 document.addEventListener("click", (e) => {
   // If user clicks on svg button, the shopping cart will appear
-  if (e.target === cartBtn || e.target === svgCartBtn) {
-    shoppingCart.classList.toggle("invisible");
+  if (
+    e.target === cartBtn ||
+    e.target === svgCartBtn ||
+    e.target === cartPath
+  ) {
+    cartBox.classList.toggle("hidden");
   }
   // If user clicks "ADD TO CART" then
   if (
@@ -79,8 +64,8 @@ document.addEventListener("click", (e) => {
       // if button and color share parent, check to see if color is in shopping cart as well...
       if (e.target.closest(".mt-4") === color.closest(".mt-4")) {
         // if visibility is hidden, make button visible
-        if (cartBtn.matches(".invisible") && cartBox.matches(".invisible")) {
-          cartBtn.classList.remove("invisible");
+        if (cartBtn.matches(".hidden") && cartBox.matches(".hidden")) {
+          cartBtn.classList.remove("hidden");
         }
         let newColorBoxes = colorBoxes.filter((colorBox) => {
           // Return items that match the color that is to be added
@@ -163,8 +148,8 @@ document.addEventListener("click", (e) => {
         // If the red counter turns to zero
         if (subRedCounter === 0) {
           // Remove both shopping cart and icon from sight
-          cartBtn.classList.add("invisible");
-          cartBox.classList.add("invisible");
+          cartBtn.classList.add("hidden");
+          cartBox.classList.add("hidden");
         }
         // Remove item from array
         const item = colorBoxes.indexOf(colorBox);
@@ -259,10 +244,4 @@ function toLocalStorage(total) {
   localStorage.setItem("colorBoxes", string);
   // Log total price
   localStorage.setItem("totalPrice", total);
-
-  // let arrTotal = [];
-  // arrTotal.push(total);
-  // arrTotal.forEach((item) => {
-  //   return JSON.stringify(item);
-  // });
 }
